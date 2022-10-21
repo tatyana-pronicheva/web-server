@@ -1,4 +1,5 @@
 package demo.homework;
+import demo.homework.domain.HttpResponse;
 import demo.homework.logger.ConsoleLogger;
 import demo.homework.logger.Logger;
 
@@ -15,6 +16,8 @@ public class RequestHandler implements Runnable {
     private static final Logger logger = new ConsoleLogger();
 
     private final SocketService socketService;
+    private final RequestParser requestParser = new RequestParserClass();
+    private final ResponseSerializer responseSerializer = new ResponseSerializerClass();
 
     public RequestHandler(SocketService socketService) {
         this.socketService = socketService;
@@ -25,27 +28,18 @@ public class RequestHandler implements Runnable {
 
         List<String> request = socketService.readRequest();
 
-        // TODO use here implementation of interface RequestParser
-        String[] parts = request.get(0).split(" ");
+        String fileName = requestParser.parse(request);
 
-        Path path = Paths.get(WWW, parts[1]);
+        Path path = Paths.get(WWW, fileName);
         if (!Files.exists(path)) {
-            // TODO use implementation of interface ResponseSerializer
-            socketService.writeResponse(
-                    "HTTP/1.1 404 NOT_FOUND\n" +
-                            "Content-Type: text/html; charset=utf-8\n" +
-                            "\n",
-                   new StringReader("<h1>Файл не найден!</h1>\n")
-            );
+            HttpResponse response = new HttpResponse(404, "text/html", "uft-8");
+            socketService.writeResponse(responseSerializer.serialize(response), new StringReader("<h1>Файл не найден!</h1>\n"));
             return;
         }
 
         try {
-            // TODO use implementation of interface ResponseSerializer
-            socketService.writeResponse("HTTP/1.1 200 OK\n" +
-                    "Content-Type: text/html; charset=utf-8\n" +
-                    "\n",
-                    Files.newBufferedReader(path));
+            HttpResponse response = new HttpResponse(200, "text/html", "utf-8");
+            socketService.writeResponse(responseSerializer.serialize(response), Files.newBufferedReader(path));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
