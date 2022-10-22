@@ -1,14 +1,10 @@
 package demo.homework.domain;
 
-import java.io.StringReader;
-import java.util.Map;
-
 public class HttpResponse {
 
     private int statusCode;
     private String contentType;
     private String encoding;
-    private String message;
 
     public int getStatusCode() {
         return statusCode;
@@ -28,13 +24,33 @@ public class HttpResponse {
         return encoding;
     }
 
-    public String getMessage() {
-        return message;
+    public static Builder createBuilder(){
+        return new Builder();
     }
 
-    public HttpResponse(int statusCode, String contentType, String encoding) {
-        this.statusCode = statusCode;
-        this.contentType = contentType;
-        this.encoding = encoding;
+    private HttpResponse() {}
+
+    public static class Builder {
+        private final HttpResponse httpResponse;
+
+        public Builder(){
+            this.httpResponse = new HttpResponse();
+        }
+
+        public Builder withStatusCode(int statusCode){
+            this.httpResponse.statusCode = statusCode;
+            return this;
+        }
+        public Builder withContentType(String contentType){
+            this.httpResponse.contentType = contentType;
+            return this;
+        }
+        public Builder withEncoding(String encoding){
+            this.httpResponse.encoding = encoding;
+            return this;
+        }
+        public HttpResponse build(){
+            return this.httpResponse;
+        }
     }
 }

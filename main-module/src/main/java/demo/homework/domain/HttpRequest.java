@@ -1,12 +1,19 @@
 package demo.homework.domain;
 
+import demo.homework.Config;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
+
 
 public class HttpRequest {
 
     private String method;
 
-    private String path;
+    private Path path;
+
+    private String fileName;
 
     private Map<String, String> headers;
 
@@ -16,8 +23,12 @@ public class HttpRequest {
         return method;
     }
 
-    public String getPath() {
+    public Path getPath() {
         return path;
+    }
+
+    public String getFileName() {
+        return fileName;
     }
 
     public Map<String, String> getHeaders() {
@@ -28,26 +39,34 @@ public class HttpRequest {
         return body;
     }
 
-    public void setMethod(String method) {
-        this.method = method;
+    private HttpRequest() {}
+
+    public static Builder createBuilder(){
+        return new Builder();
     }
 
-    public void setPath(String path) {
-        this.path = path;
-    }
+    public static class Builder{
+        private HttpRequest httpRequest = new HttpRequest();
+        public HttpRequest build(){
+            return this.httpRequest;
+        }
+        public Builder withMethod(String method){
+            this.httpRequest.method = method;
+            return this;
+        }
+        public Builder withFileName(String fileName){
+            this.httpRequest.fileName = fileName;
+            this.httpRequest.path = Paths.get(Config.getWWW(), fileName);
+            return this;
+        }
+        public Builder withHeaders(Map<String, String> headers){
+            this.httpRequest.headers = headers;
+            return this;
+        }
+        public Builder withBody(String body){
+            this.httpRequest.body = body;
+            return this;
+        }
 
-    public void setHeaders(Map<String, String> headers) {
-        this.headers = headers;
-    }
-
-    public void setBody(String body) {
-        this.body = body;
-    }
-
-    public HttpRequest(String method, String path, Map<String, String> headers, String body) {
-        this.method = method;
-        this.path = path;
-        this.headers = headers;
-        this.body = body;
     }
 }
