@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface RequestParser {
 
-    String parse(List<String> rawRequest);
+    HttpRequest parse(List<String> rawRequest);
 }
