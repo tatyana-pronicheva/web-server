@@ -1,6 +1,6 @@
 package demo.homework.logger;
 
-public class ConsoleLogger implements Logger {
+public class SimpleLogger implements Logger {
     @Override
     public void info(String msg) {
         System.out.println(msg);
