@@ -1,7 +1,7 @@
 package demo.homework;
 
-import demo.homework.logger.ConsoleLogger;
 import demo.homework.logger.Logger;
+import demo.homework.logger.LoggerFactory;
 
 import java.io.*;
 import java.net.Socket;
@@ -11,7 +11,7 @@ import java.util.List;
 
 public class SocketService implements Closeable {
 
-    private static final Logger logger = new ConsoleLogger();
+    private static final Logger logger = LoggerFactory.createLogger();
 
     private final Socket socket;
 

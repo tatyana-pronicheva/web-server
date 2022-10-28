@@ -2,8 +2,8 @@ package demo.homework;
 
 import demo.homework.domain.HttpRequest;
 import demo.homework.domain.HttpResponse;
-import demo.homework.logger.ConsoleLogger;
 import demo.homework.logger.Logger;
+import demo.homework.logger.LoggerFactory;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -13,7 +13,7 @@ import java.util.List;
 
 public class RequestHandler implements Runnable {
 
-    private static final Logger logger = new ConsoleLogger();
+    private static final Logger logger = LoggerFactory.createLogger();
 
     private final SocketService socketService;
     private final RequestParser requestParser = new RequestParserClass();
