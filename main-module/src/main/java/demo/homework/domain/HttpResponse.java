@@ -1,10 +1,22 @@
 package demo.homework.domain;
 
+import java.io.BufferedReader;
+
 public class HttpResponse {
 
     private int statusCode;
     private String contentType;
     private String encoding;
+    private String body;
+    private BufferedReader file;
+
+    public BufferedReader getFile() {
+        return file;
+    }
+
+    public String getBody() {
+        return body;
+    }
 
     public int getStatusCode() {
         return statusCode;
@@ -47,6 +59,14 @@ public class HttpResponse {
         }
         public Builder withEncoding(String encoding){
             this.httpResponse.encoding = encoding;
+            return this;
+        }
+        public Builder withBody(String body){
+            this.httpResponse.body = body;
+            return this;
+        }
+        public Builder withFile(BufferedReader file){
+            this.httpResponse.file = file;
             return this;
         }
         public HttpResponse build(){

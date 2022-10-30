@@ -1,5 +1,6 @@
 package demo.homework;
 
+import demo.homework.handler.RequestHandler;
 import demo.homework.logger.Logger;
 import demo.homework.logger.LoggerFactory;
 
@@ -18,7 +19,11 @@ public class ServerFactory {
                 Socket socket = serverSocket.accept();
                 logger.info("New client connected!");
 
-                new Thread(new RequestHandler(new SocketService(socket))).start();
+                SocketService socketService = new SocketService(socket);
+                ResponseSerializer responseSerializer = new ResponseSerializerClass();
+                new Thread(new RequestHandler(socketService,
+                       responseSerializer)
+                ).start();
             }
         } catch (IOException e) {
             e.printStackTrace();
