@@ -24,7 +24,7 @@ public class RequestParserClass implements RequestParser{
                                             try {
                                                 value = line.split(": ")[1];
                                             } catch (ArrayIndexOutOfBoundsException e){
-                                                e.printStackTrace();
+                                               // e.printStackTrace();
                                             }
                                             return value;
                                          }

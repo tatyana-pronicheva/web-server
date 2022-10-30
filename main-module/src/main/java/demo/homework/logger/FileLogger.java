@@ -22,7 +22,7 @@ public class FileLogger implements Logger{
             fw.write(msg);
             fw.write("\n");
         } catch (Exception e){
-            e.printStackTrace();
+           // e.printStackTrace();
         }
     }
 }
